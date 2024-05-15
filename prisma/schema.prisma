@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String        @id @default(uuid())
+  name        String
+  email       String        @unique
+  password    String
+  birth_date  DateTime
+  permissons  Role          @default(USER)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  accounts    Accounts[]
+  creditCards CreditCards[]
+}
+
+enum Role {
+  USER
+  PLUS
+  ADMIN
+}
+
+model Accounts {
+  id            String        @id @default(uuid())
+  user          User          @relation(fields: [userId], references: [id])
+  userId        String
+  title         String
+  balance       Int           @default(0)
+  icon          String
+  is_deleted    DateTime?
+  sum_balance   Boolean       @default(false)
+  currency_code String
+  creditCards   CreditCards[]
+}
+
+model CreditCards {
+  id            String    @id @default(uuid())
+  user          User      @relation(fields: [userId], references: [id])
+  account       Accounts  @relation(fields: [accountId], references: [id])
+  accountId     String
+  is_deleted    DateTime?
+  userId        String
+  title         String
+  limit         Int       @default(0)
+  currency_code String
+  buy_limit     Int
+  exp_day       Int
+  icon          String?
+}
