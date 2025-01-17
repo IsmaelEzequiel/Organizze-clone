@@ -1,55 +1,65 @@
+import { StatusCodes } from 'http-status-codes';
+
+import { ResponseStatus, ServiceResponse } from '@/common/models/serviceResponse';
+import { logger } from '@/server';
+
+import { Account, CreateAccount } from './accountsModel';
+import { accountsRepository } from './accountsRepository';
+
 export const accountsService = {
-  create: async () => {
+  findAll: async (userId: string): Promise<ServiceResponse<Account[] | null>> => {
     try {
-      const info = await authRepository.signInAsync(params);
-      if (!info) {
-        return new ServiceResponse(ResponseStatus.Failed, 'Email or password incorrect', null, StatusCodes.BAD_REQUEST);
-      }
-      return new ServiceResponse<AuthLogin>(ResponseStatus.Success, 'Success', info, StatusCodes.OK);
+      const accounts = await accountsRepository.findAllAsync(userId);
+      return new ServiceResponse<Account[]>(ResponseStatus.Success, 'Success', accounts, StatusCodes.OK);
     } catch (error) {
-      const errorMessage = `Error while signIn: $${(error as Error).message}`;
+      const errorMessage = `Error creating account: $${(error as Error).message}`;
       logger.error(errorMessage);
       return new ServiceResponse(ResponseStatus.Failed, errorMessage, null, StatusCodes.INTERNAL_SERVER_ERROR);
     }
   },
 
-  archive: async () => {
+  create: async (params: CreateAccount): Promise<ServiceResponse<Account | null>> => {
     try {
-      const info = await authRepository.signInAsync(params);
-      if (!info) {
-        return new ServiceResponse(ResponseStatus.Failed, 'Email or password incorrect', null, StatusCodes.BAD_REQUEST);
+      const accounts = await accountsRepository.createAsync(params);
+      if (!accounts) {
+        return new ServiceResponse(ResponseStatus.Failed, 'User not found', null, StatusCodes.NOT_FOUND);
       }
-      return new ServiceResponse<AuthLogin>(ResponseStatus.Success, 'Success', info, StatusCodes.OK);
+      return new ServiceResponse<Account>(ResponseStatus.Success, 'Success', accounts, StatusCodes.OK);
     } catch (error) {
-      const errorMessage = `Error while signIn: $${(error as Error).message}`;
+      const errorMessage = `Error creating account: $${(error as Error).message}`;
       logger.error(errorMessage);
       return new ServiceResponse(ResponseStatus.Failed, errorMessage, null, StatusCodes.INTERNAL_SERVER_ERROR);
     }
   },
 
-  delete: async () => {
+  archive: async (params: string): Promise<ServiceResponse<Account | null>> => {
     try {
-      const info = await authRepository.signInAsync(params);
-      if (!info) {
-        return new ServiceResponse(ResponseStatus.Failed, 'Email or password incorrect', null, StatusCodes.BAD_REQUEST);
-      }
-      return new ServiceResponse<AuthLogin>(ResponseStatus.Success, 'Success', info, StatusCodes.OK);
+      const info = await accountsRepository.archiveAsync(params);
+      return new ServiceResponse<Account>(ResponseStatus.Success, 'Success', info, StatusCodes.OK);
     } catch (error) {
-      const errorMessage = `Error while signIn: $${(error as Error).message}`;
+      const errorMessage = `Error while archive: $${(error as Error).message}`;
       logger.error(errorMessage);
       return new ServiceResponse(ResponseStatus.Failed, errorMessage, null, StatusCodes.INTERNAL_SERVER_ERROR);
     }
   },
 
-  edit: async () => {
+  delete: async (params: string): Promise<ServiceResponse<Account | null>> => {
     try {
-      const info = await authRepository.signInAsync(params);
-      if (!info) {
-        return new ServiceResponse(ResponseStatus.Failed, 'Email or password incorrect', null, StatusCodes.BAD_REQUEST);
-      }
-      return new ServiceResponse<AuthLogin>(ResponseStatus.Success, 'Success', info, StatusCodes.OK);
+      const info = await accountsRepository.deleteAsync(params);
+      return new ServiceResponse<Account>(ResponseStatus.Success, 'Success', info, StatusCodes.OK);
     } catch (error) {
-      const errorMessage = `Error while signIn: $${(error as Error).message}`;
+      const errorMessage = `Error while deleting: $${(error as Error).message}`;
+      logger.error(errorMessage);
+      return new ServiceResponse(ResponseStatus.Failed, errorMessage, null, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+  },
+
+  update: async (accountId: string, params: Account): Promise<ServiceResponse<Account | null>> => {
+    try {
+      const info = await accountsRepository.updateAsync(accountId, params);
+      return new ServiceResponse<Account>(ResponseStatus.Success, 'Success', info, StatusCodes.OK);
+    } catch (error) {
+      const errorMessage = `Error while editing: $${(error as Error).message}`;
       logger.error(errorMessage);
       return new ServiceResponse(ResponseStatus.Failed, errorMessage, null, StatusCodes.INTERNAL_SERVER_ERROR);
     }

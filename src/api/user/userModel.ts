@@ -8,7 +8,7 @@ extendZodWithOpenApi(z);
 export type User = z.infer<typeof UserSchema>;
 
 export const UserSchema = z.object({
-  id: z.number(),
+  id: z.string(),
   name: z.string(),
   email: z.string().email(),
   birth_date: z.date().max(new Date(), { message: 'Too young!' }),
@@ -20,9 +20,13 @@ export const UserSchema = z.object({
 
 export const CreateUserSchema = UserSchema.omit({ id: true, createdAt: true, updatedAt: true, permissons: true });
 
+export const UserWithoutPassword = UserSchema.omit({ password: true });
+
 export const SignUpSchema = UserSchema.omit({ id: true, createdAt: true, updatedAt: true });
 
 export type CreateUser = z.infer<typeof CreateUserSchema>;
+
+export type UserWithoutPasswordType = z.infer<typeof UserWithoutPassword>;
 
 export type SignUp = z.infer<typeof SignUpSchema>;
 

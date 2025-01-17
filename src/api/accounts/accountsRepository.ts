@@ -1,9 +1,25 @@
 import prisma from '@/config/prisma';
 
-import { Account, CreateAccount, EditAccount } from './accountsModel';
+import { Account, CreateAccount } from './accountsModel';
 
 export const accountsRepository = {
+  findAllAsync: async (userId: string) => {
+    const acc = await prisma.accounts.findMany({
+      where: {
+        userId: userId,
+        is_deleted: null,
+      },
+    });
+    return acc;
+  },
+
   createAsync: async (params: CreateAccount) => {
+    const user = await prisma.user.findUnique({ where: { id: `${params.userId}` } });
+
+    if (!user) {
+      return null;
+    }
+
     const acc = await prisma.accounts.create({ data: params });
     return acc;
   },
@@ -31,14 +47,13 @@ export const accountsRepository = {
     return acc;
   },
 
-  editAsync: async (params: Account) => {
+  updateAsync: async (accountId: string, params: Account) => {
     const acc = await prisma.accounts.update({
       where: {
-        id: params.id,
+        id: accountId,
       },
       data: {
         title: params.title,
-        userId: params.userId,
         balance: params.balance,
         icon: params.icon,
         sum_balance: params.sum_balance,

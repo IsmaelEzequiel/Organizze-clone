@@ -11,6 +11,7 @@ import rateLimiter from '@/common/middleware/rateLimiter';
 import requestLogger from '@/common/middleware/requestLogger';
 import { env } from '@/common/utils/envConfig';
 
+import { accountRouter } from './api/accounts/accountsRouter';
 import { authRouter } from './api/auth/authRouter';
 import { verifyJWT } from './common/middleware/verifyJWT';
 
@@ -33,6 +34,7 @@ app.use(requestLogger);
 // Routes
 app.use('/health-check', healthCheckRouter);
 app.use('/users', verifyJWT, userRouter);
+app.use('/accounts', verifyJWT, accountRouter);
 app.use('/auth', authRouter);
 
 // Swagger UI

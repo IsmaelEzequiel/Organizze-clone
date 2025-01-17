@@ -2,8 +2,7 @@ import { z } from 'zod';
 
 export const CreditCardSchema = z.object({
   id: z.string(),
-  accountId: z.string(),
-  is_deleted: z.date().optional(),
+  is_deleted: z.date().nullish(),
   userId: z.string(),
   title: z.string(),
   limit: z.number(),
@@ -19,18 +18,38 @@ export const AccountSchema = z.object({
   title: z.string(),
   balance: z.number(),
   icon: z.string(),
-  is_deleted: z.date().optional(),
+  is_deleted: z.date().nullish(),
   sum_balance: z.boolean().default(false),
   currency_code: z.string(),
-  creditCards: z.array(CreditCardSchema),
 });
 
-const CreateAccountSchema = AccountSchema.pick({
+export const CreateAccountSchema = AccountSchema.pick({
   title: true,
   icon: true,
   sum_balance: true,
   userId: true,
+  balance: true,
   currency_code: true,
+});
+
+export const AccountSchemAPI = z.object({
+  body: z.object({
+    userId: z.string(),
+    title: z.string(),
+    balance: z.number(),
+    icon: z.string(),
+    is_deleted: z.date().nullish(),
+    sum_balance: z.boolean().default(false),
+    currency_code: z.string(),
+  }),
+});
+
+export const CreateAccountSchemaAPI = z.object({
+  body: CreateAccountSchema,
+});
+
+export const GetAccountSchemaAPI = z.object({
+  params: z.object({ userId: z.string() }),
 });
 
 export type Account = z.infer<typeof AccountSchema>;

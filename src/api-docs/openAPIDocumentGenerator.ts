@@ -1,11 +1,12 @@
 import { OpenApiGeneratorV3, OpenAPIRegistry } from '@asteasolutions/zod-to-openapi';
 
+import { accountRegistry } from '@/api/accounts/accountsRouter';
 import { authRegistry } from '@/api/auth/authRouter';
 import { healthCheckRegistry } from '@/api/healthCheck/healthCheckRouter';
 import { userRegistry } from '@/api/user/userRouter';
 
 export function generateOpenAPIDocument() {
-  const registry = new OpenAPIRegistry([healthCheckRegistry, userRegistry, authRegistry]);
+  const registry = new OpenAPIRegistry([healthCheckRegistry, userRegistry, authRegistry, accountRegistry]);
 
   const bearerAuth = registry.registerComponent('securitySchemes', 'Authorization', {
     type: 'http',
@@ -20,7 +21,7 @@ export function generateOpenAPIDocument() {
     openapi: '3.0.0',
     info: {
       version: '1.0.0',
-      title: 'Pixel Nomads',
+      title: 'Organize Clone API',
     },
     externalDocs: {
       description: 'View the raw OpenAPI Specification in JSON format',

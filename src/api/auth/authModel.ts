@@ -22,7 +22,7 @@ export const AuthLoginSchemAPI = z.object({
 });
 
 export const TokenSchema = z.object({
-  id: z.number(),
+  id: z.string(),
   email: z.string().email(),
   permission: z.enum(['USER', 'PLUS', 'ADMIN']),
 });
