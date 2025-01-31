@@ -8,7 +8,7 @@ export const userRepository = {
     return excludeFromList(users, ['password']);
   },
 
-  findByIdAsync: async (id: number): Promise<Omit<User, 'password'> | null> => {
+  findByIdAsync: async (id: string): Promise<Omit<User, 'password'> | null> => {
     const user = await prisma.user.findUnique({ where: { id: id } });
     return user ? excludeFromObject(user, ['password']) : null;
   },
