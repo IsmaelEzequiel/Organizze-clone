@@ -18,8 +18,6 @@ RUN apt-get update -y && apt-get install -y openssl
 
 RUN npx prisma generate
 
-RUN npx prisma migrate deploy
-
 # Build the TypeScript files
 RUN npm run build
 
@@ -27,4 +25,4 @@ RUN npm run build
 EXPOSE 8080
 
 # Start the app
-CMD npm run start
+CMD npx prisma migrate deploy && npm run start
