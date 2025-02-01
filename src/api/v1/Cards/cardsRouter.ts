@@ -1,9 +1,7 @@
 import { OpenAPIRegistry } from '@asteasolutions/zod-to-openapi';
 import express, { Request, Response, Router } from 'express';
-import { StatusCodes } from 'http-status-codes';
-import { z } from 'zod';
 
-import { createApiRequest, createApiResponse, createApiResponses } from '@/api-docs/openAPIResponseBuilders';
+import { createApiRequest, createApiResponse } from '@/api-docs/openAPIResponseBuilders';
 import { handleServiceResponse, validateRequest } from '@/common/utils/httpHandlers';
 
 import { CardSchema, CardSchemAPI, CreateCardSchema, CreateCardSchemaAPI, GetCardSchemaAPI } from './cardsModel';
@@ -20,10 +18,7 @@ export const cardsRouter: Router = (() => {
     method: 'get',
     path: '/v1/cards',
     tags: ['Cards'],
-    responses: createApiResponses([
-      { schema: z.array(CardSchema), description: 'Success', statusCode: StatusCodes.OK },
-      { schema: z.literal(null), description: 'Unauthorized', statusCode: StatusCodes.UNAUTHORIZED },
-    ]),
+    responses: createApiResponse(CardSchema, 'Success'),
   });
 
   router.get('/', async (_: Request, res: Response) => {
@@ -36,10 +31,7 @@ export const cardsRouter: Router = (() => {
     path: '/v1/cards/{id}',
     tags: ['Cards'],
     request: { params: GetCardSchemaAPI.shape.params },
-    responses: createApiResponses([
-      { schema: z.array(CardSchema), description: 'Success', statusCode: StatusCodes.OK },
-      { schema: z.literal(null), description: 'Unauthorized', statusCode: StatusCodes.UNAUTHORIZED },
-    ]),
+    responses: createApiResponse(CardSchema, 'Success'),
   });
 
   router.get('/:id', async (req: Request, res: Response) => {

@@ -4,12 +4,23 @@ import { Account, CreateAccount } from './accountsModel';
 
 export const accountsRepository = {
   findAllAsync: async (userId: string) => {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) {
+      return 'User not found';
+    }
+
     const acc = await prisma.accounts.findMany({
       where: {
         userId: userId,
         is_deleted: null,
       },
     });
+
     return acc;
   },
 

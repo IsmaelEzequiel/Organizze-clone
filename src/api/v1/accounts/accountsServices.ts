@@ -7,9 +7,15 @@ import { Account, CreateAccount } from './accountsModel';
 import { accountsRepository } from './accountsRepository';
 
 export const accountsService = {
-  findAll: async (userId: string): Promise<ServiceResponse<Account[] | null>> => {
+  findAll: async (userId: string): Promise<ServiceResponse<Account[] | null | string>> => {
     try {
       const accounts = await accountsRepository.findAllAsync(userId);
+      if (!accounts) {
+        return new ServiceResponse<Account[]>(ResponseStatus.Success, 'Account not found', accounts, StatusCodes.OK);
+      }
+      if (typeof accounts === 'string') {
+        return new ServiceResponse<Account[] | string>(ResponseStatus.Success, 'User not found', null, StatusCodes.OK);
+      }
       return new ServiceResponse<Account[]>(ResponseStatus.Success, 'Success', accounts, StatusCodes.OK);
     } catch (error) {
       const errorMessage = `Error creating account: $${(error as Error).message}`;

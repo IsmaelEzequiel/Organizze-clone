@@ -32,15 +32,18 @@ app.use(rateLimiter);
 // Request logging
 app.use(requestLogger);
 
-// Routes
 app.use('/health-check', healthCheckRouter);
-app.use('/v1/users', verifyJWT, userRouter);
-app.use('/v1/accounts', verifyJWT, accountRouter);
 app.use('/v1/auth', authRouter);
-app.use('/v1/cards', cardsRouter);
 
 // Swagger UI
 app.use(openAPIRouter);
+
+app.use(verifyJWT);
+
+// Routes
+app.use('/v1/users', userRouter);
+app.use('/v1/accounts', accountRouter);
+app.use('/v1/cards', cardsRouter);
 
 // Error handlers
 app.use(errorHandler());
