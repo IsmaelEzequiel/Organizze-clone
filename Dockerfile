@@ -9,8 +9,14 @@ COPY package*.json ./
 # Install app dependencies
 RUN npm ci
 
+COPY prisma ./prisma/
+
 # Bundle app source
 COPY . .
+
+RUN apt-get update -y && apt-get install -y openssl
+
+RUN npx prisma generate
 
 # Build the TypeScript files
 RUN npm run build
@@ -19,4 +25,4 @@ RUN npm run build
 EXPOSE 8080
 
 # Start the app
-CMD npm run start
+CMD npx prisma migrate deploy && npm run start
