@@ -5,7 +5,7 @@ import { User } from '@/api/v1/user/userModel';
 import { userRepository } from '@/api/v1/user/userRepository';
 import { userService } from '@/api/v1/user/userService';
 
-vi.mock('@/api/user/userRepository');
+vi.mock('@/api/v1/user/userRepository');
 vi.mock('@/server', () => ({
   ...vi.importActual('@/server'),
   logger: {
