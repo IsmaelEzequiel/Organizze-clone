@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 
-import { CreateUser, UserWithoutPasswordType } from '@/api/user/userModel';
-import { userRepository } from '@/api/user/userRepository';
+import { CreateUser, UserWithoutPasswordType } from '@/api/v1/user/userModel';
+import { userRepository } from '@/api/v1/user/userRepository';
 import { ResponseStatus, ServiceResponse } from '@/common/models/serviceResponse';
 import { logger } from '@/server';
 

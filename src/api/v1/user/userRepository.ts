@@ -1,5 +1,5 @@
-import { CreateUser, User } from '@/api/user/userModel';
-import { UserWithoutPasswordType } from '@/api/user/userModel';
+import { CreateUser, User } from '@/api/v1/user/userModel';
+import { UserWithoutPasswordType } from '@/api/v1/user/userModel';
 import { excludeFromList, excludeFromObject } from '@/common/utils/excludeField';
 import prisma from '@/config/prisma';
 

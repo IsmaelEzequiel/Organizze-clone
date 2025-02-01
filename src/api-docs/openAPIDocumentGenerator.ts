@@ -1,12 +1,19 @@
 import { OpenApiGeneratorV3, OpenAPIRegistry } from '@asteasolutions/zod-to-openapi';
 
-import { accountRegistry } from '@/api/accounts/accountsRouter';
-import { authRegistry } from '@/api/auth/authRouter';
-import { healthCheckRegistry } from '@/api/healthCheck/healthCheckRouter';
-import { userRegistry } from '@/api/user/userRouter';
+import { accountRegistry } from '@/api/v1/accounts/accountsRouter';
+import { authRegistry } from '@/api/v1/auth/authRouter';
+import { cardsRegistry } from '@/api/v1/Cards/cardsRouter';
+import { healthCheckRegistry } from '@/api/v1/healthCheck/healthCheckRouter';
+import { userRegistry } from '@/api/v1/user/userRouter';
 
 export function generateOpenAPIDocument() {
-  const registry = new OpenAPIRegistry([healthCheckRegistry, userRegistry, authRegistry, accountRegistry]);
+  const registry = new OpenAPIRegistry([
+    healthCheckRegistry,
+    userRegistry,
+    authRegistry,
+    accountRegistry,
+    cardsRegistry,
+  ]);
 
   const bearerAuth = registry.registerComponent('securitySchemes', 'Authorization', {
     type: 'http',

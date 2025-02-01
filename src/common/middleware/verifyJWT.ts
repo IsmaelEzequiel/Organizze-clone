@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import jwt from 'jsonwebtoken';
 
-import { TokenType } from '@/api/auth/authModel';
+import { TokenType } from '@/api/v1/auth/authModel';
 
 import { ResponseStatus, ServiceResponse } from '../models/serviceResponse';
 import { env } from '../utils/envConfig';

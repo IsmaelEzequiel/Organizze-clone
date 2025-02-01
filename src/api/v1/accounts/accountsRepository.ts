@@ -14,12 +14,6 @@ export const accountsRepository = {
   },
 
   createAsync: async (params: CreateAccount) => {
-    const user = await prisma.user.findUnique({ where: { id: `${params.userId}` } });
-
-    if (!user) {
-      return null;
-    }
-
     const acc = await prisma.accounts.create({ data: params });
     return acc;
   },

@@ -3,16 +3,17 @@ import express, { Express } from 'express';
 import helmet from 'helmet';
 import { pino } from 'pino';
 
-import { healthCheckRouter } from '@/api/healthCheck/healthCheckRouter';
-import { userRouter } from '@/api/user/userRouter';
+import { healthCheckRouter } from '@/api/v1/healthCheck/healthCheckRouter';
+import { userRouter } from '@/api/v1/user/userRouter';
 import { openAPIRouter } from '@/api-docs/openAPIRouter';
 import errorHandler from '@/common/middleware/errorHandler';
 import rateLimiter from '@/common/middleware/rateLimiter';
 import requestLogger from '@/common/middleware/requestLogger';
 import { env } from '@/common/utils/envConfig';
 
-import { accountRouter } from './api/accounts/accountsRouter';
-import { authRouter } from './api/auth/authRouter';
+import { accountRouter } from './api/v1/accounts/accountsRouter';
+import { authRouter } from './api/v1/auth/authRouter';
+import { cardsRouter } from './api/v1/Cards/cardsRouter';
 import { verifyJWT } from './common/middleware/verifyJWT';
 
 const logger = pino({ name: 'server start' });
@@ -33,9 +34,10 @@ app.use(requestLogger);
 
 // Routes
 app.use('/health-check', healthCheckRouter);
-app.use('/users', verifyJWT, userRouter);
-app.use('/accounts', verifyJWT, accountRouter);
-app.use('/auth', authRouter);
+app.use('/v1/users', verifyJWT, userRouter);
+app.use('/v1/accounts', verifyJWT, accountRouter);
+app.use('/v1/auth', authRouter);
+app.use('/v1/cards', cardsRouter);
 
 // Swagger UI
 app.use(openAPIRouter);

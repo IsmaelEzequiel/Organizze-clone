@@ -8,7 +8,7 @@ import { handleServiceResponse, validateRequest } from '@/common/utils/httpHandl
 
 import {
   AccountSchema,
-  AccountSchemAPI,
+  AccountSchemaAPI,
   CreateAccountSchema,
   CreateAccountSchemaAPI,
   GetAccountSchemaAPI,
@@ -24,7 +24,7 @@ export const accountRouter: Router = (() => {
 
   accountRegistry.registerPath({
     method: 'get',
-    path: '/accounts/{userId}',
+    path: '/v1/accounts/{userId}',
     tags: ['Accounts'],
     request: { params: GetAccountSchemaAPI.shape.params },
     responses: createApiResponses([
@@ -40,7 +40,7 @@ export const accountRouter: Router = (() => {
 
   accountRegistry.registerPath({
     method: 'post',
-    path: '/accounts',
+    path: '/v1/accounts',
     tags: ['Accounts'],
     request: createApiRequest(CreateAccountSchema, 'Success'),
     responses: createApiResponse(AccountSchema, 'Success'),
@@ -53,7 +53,7 @@ export const accountRouter: Router = (() => {
 
   accountRegistry.registerPath({
     method: 'post',
-    path: '/accounts/archive',
+    path: '/v1/accounts/archive',
     tags: ['Accounts'],
     responses: createApiRequest(AccountSchema, 'Success'),
   });
@@ -65,25 +65,25 @@ export const accountRouter: Router = (() => {
 
   accountRegistry.registerPath({
     method: 'put',
-    path: '/accounts/{id}',
+    path: '/v1/accounts/{id}',
     tags: ['Accounts'],
     request: createApiRequest(AccountSchema, 'Success'),
     responses: createApiResponse(AccountSchema, 'Success'),
   });
 
-  router.put('/:id', validateRequest(AccountSchemAPI), async (req: Request, res: Response) => {
+  router.put('/:id', validateRequest(AccountSchemaAPI), async (req: Request, res: Response) => {
     const authResponse = await accountsService.update(req.params.id, req.body);
     handleServiceResponse(authResponse, res);
   });
 
   accountRegistry.registerPath({
     method: 'delete',
-    path: '/accounts/{id}',
+    path: '/v1/accounts/{id}',
     tags: ['Accounts'],
     responses: createApiResponse(AccountSchema, 'Success'),
   });
 
-  router.delete('/:id', validateRequest(AccountSchemAPI), async (req: Request, res: Response) => {
+  router.delete('/:id', validateRequest(AccountSchemaAPI), async (req: Request, res: Response) => {
     const authResponse = await accountsService.delete(req.params.id);
     handleServiceResponse(authResponse, res);
   });

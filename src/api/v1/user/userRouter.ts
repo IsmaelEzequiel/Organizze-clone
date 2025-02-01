@@ -3,8 +3,8 @@ import express, { Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { z } from 'zod';
 
-import { GetUserSchemaAPI, UserSchema } from '@/api/user/userModel';
-import { userService } from '@/api/user/userService';
+import { GetUserSchemaAPI, UserSchema } from '@/api/v1/user/userModel';
+import { userService } from '@/api/v1/user/userService';
 import { createApiResponse, createApiResponses } from '@/api-docs/openAPIResponseBuilders';
 import { handleServiceResponse, validateRequest } from '@/common/utils/httpHandlers';
 
@@ -17,7 +17,7 @@ export const userRouter: Router = (() => {
 
   userRegistry.registerPath({
     method: 'get',
-    path: '/users',
+    path: '/v1/users',
     tags: ['User'],
     responses: createApiResponses([
       { schema: z.array(UserSchema), description: 'Success', statusCode: StatusCodes.OK },
@@ -32,7 +32,7 @@ export const userRouter: Router = (() => {
 
   userRegistry.registerPath({
     method: 'get',
-    path: '/users/{id}',
+    path: '/v1/users/{id}',
     tags: ['User'],
     request: { params: GetUserSchemaAPI.shape.params },
     responses: createApiResponse(UserSchema, 'Success'),

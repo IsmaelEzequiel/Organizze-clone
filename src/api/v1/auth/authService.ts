@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 
-import { AuthLogin, LoginSchemaType } from '@/api/auth/authModel';
+import { AuthLogin, LoginSchemaType } from '@/api/v1/auth/authModel';
 import { ResponseStatus, ServiceResponse } from '@/common/models/serviceResponse';
 import { logger } from '@/server';
 

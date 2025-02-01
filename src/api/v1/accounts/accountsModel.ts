@@ -1,17 +1,5 @@
 import { z } from 'zod';
 
-export const CreditCardSchema = z.object({
-  id: z.string(),
-  is_deleted: z.date().nullish(),
-  userId: z.string(),
-  title: z.string(),
-  limit: z.number(),
-  currency_code: z.string(),
-  buy_limit: z.number(),
-  exp_day: z.number(),
-  icon: z.string().nullable(),
-});
-
 export const AccountSchema = z.object({
   id: z.string(),
   userId: z.string(),
@@ -32,7 +20,7 @@ export const CreateAccountSchema = AccountSchema.pick({
   currency_code: true,
 });
 
-export const AccountSchemAPI = z.object({
+export const AccountSchemaAPI = z.object({
   body: z.object({
     userId: z.string(),
     title: z.string(),

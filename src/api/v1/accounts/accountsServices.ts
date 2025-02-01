@@ -21,9 +21,6 @@ export const accountsService = {
   create: async (params: CreateAccount): Promise<ServiceResponse<Account | null>> => {
     try {
       const accounts = await accountsRepository.createAsync(params);
-      if (!accounts) {
-        return new ServiceResponse(ResponseStatus.Failed, 'User not found', null, StatusCodes.NOT_FOUND);
-      }
       return new ServiceResponse<Account>(ResponseStatus.Success, 'Success', accounts, StatusCodes.OK);
     } catch (error) {
       const errorMessage = `Error creating account: $${(error as Error).message}`;

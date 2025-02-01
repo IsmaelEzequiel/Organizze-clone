@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import { AuthLogin, LoginSchemaType, TokenType } from '@/api/auth/authModel';
-import { userRepository } from '@/api/user/userRepository';
+import { AuthLogin, LoginSchemaType, TokenType } from '@/api/v1/auth/authModel';
+import { userRepository } from '@/api/v1/user/userRepository';
 import { env } from '@/common/utils/envConfig';
 
 import { CreateUser } from '../user/userModel';

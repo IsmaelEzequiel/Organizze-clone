@@ -1,7 +1,7 @@
 import { OpenAPIRegistry } from '@asteasolutions/zod-to-openapi';
 import express, { Request, Response, Router } from 'express';
 
-import { AuthLoginSchema, AuthLoginSchemAPI } from '@/api/auth/authModel';
+import { AuthLoginSchema, AuthLoginSchemAPI } from '@/api/v1/auth/authModel';
 import { createApiRequest, createApiResponse } from '@/api-docs/openAPIResponseBuilders';
 import { handleServiceResponse, validateRequest } from '@/common/utils/httpHandlers';
 
@@ -21,7 +21,7 @@ export const authRouter: Router = (() => {
 
   authRegistry.registerPath({
     method: 'post',
-    path: '/auth/login',
+    path: '/v1/auth/login',
     tags: ['Authentication'],
     request: createApiRequest(AuthLoginSchemAPI.shape.body, 'Success'),
     responses: createApiResponse(AuthLoginSchema, 'Success'),
@@ -34,7 +34,7 @@ export const authRouter: Router = (() => {
 
   authRegistry.registerPath({
     method: 'post',
-    path: '/auth/signup',
+    path: '/v1/auth/signup',
     tags: ['Authentication'],
     request: createApiRequest(CreateUserSchema, 'Success'),
     responses: createApiResponse(AuthLoginSchema, 'Success'),
@@ -52,7 +52,7 @@ export const authRouter: Router = (() => {
 
   authRegistry.registerPath({
     method: 'post',
-    path: '/auth/logout',
+    path: '/v1/auth/logout',
     tags: ['Authentication'],
     responses: createApiRequest(AuthLoginSchema, 'Success'),
   });

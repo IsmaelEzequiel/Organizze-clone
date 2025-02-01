@@ -18,7 +18,7 @@ model User {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   accounts    Accounts[]
-  creditCards CreditCards[]
+  cards       Cards[]
 }
 
 enum Role {
@@ -39,14 +39,13 @@ model Accounts {
   currency_code String
 }
 
-model CreditCards {
+model Cards {
   id            String    @id @default(uuid())
   user          User      @relation(fields: [userId], references: [id])
-  accountId     String
-  is_deleted    DateTime?
   userId        String
   title         String
   limit         Int       @default(0)
+  is_deleted    DateTime?
   currency_code String
   buy_limit     Int
   exp_day       Int
