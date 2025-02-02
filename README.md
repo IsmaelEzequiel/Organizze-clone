@@ -2,20 +2,20 @@
 
 ## 🚀 Features
 
-[] Signup;
-[] Reset password;
-[] Activate account;
-[] Auth0 signup (social login);
-[] Add credit cards;
-[] Create invoices for my credit cards;
-[] Add bank accounts;
-[] Create transactions - Expense and income;
-[] Pay for purchases in installments;
-[] Add a fixed recurring income;
-[] Near expense close to expire;
-[] Alert expired expenses;
-[] Manage tags tags;
-[] Create categories;
+- [ ] Signup;
+- [ ] Reset password;
+- [ ] Activate account;
+- [ ] Auth0 signup (social login);
+- [ ] Add credit cards;
+- [ ] Create invoices for my credit cards;
+- [ ] Add bank accounts;
+- [ ] Create transactions - Expense and income;
+- [ ] Pay for purchases in installments;
+- [ ] Add a fixed recurring income;
+- [ ] Near expense close to expire;
+- [ ] Alert expired expenses;
+- [ ] Manage tags tags;
+- [ ] Create categories;
 
 ## 🚀 Features
 
