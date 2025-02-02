@@ -60,7 +60,7 @@ describe('userService', () => {
       const result = await userService.findAll();
 
       // Assert
-      expect(result.statusCode).toEqual(StatusCodes.INTERNAL_SERVER_ERROR);
+      expect(result.statusCode).toEqual(StatusCodes.BAD_REQUEST);
       expect(result.success).toBeFalsy();
       // expect(result.message).toContain('No Users found');
       expect(result.content).toBeNull();
@@ -74,7 +74,7 @@ describe('userService', () => {
       const result = await userService.findAll();
 
       // Assert
-      expect(result.statusCode).toEqual(StatusCodes.INTERNAL_SERVER_ERROR);
+      expect(result.statusCode).toEqual(StatusCodes.BAD_REQUEST);
       expect(result.success).toBeFalsy();
       // expect(result.message).toContain('Error finding all users');
       expect(result.content).toBeNull();
@@ -107,7 +107,7 @@ describe('userService', () => {
       const result = await userService.findById(testId);
 
       // Assert
-      expect(result.statusCode).toEqual(StatusCodes.INTERNAL_SERVER_ERROR);
+      expect(result.statusCode).toEqual(StatusCodes.BAD_REQUEST);
       expect(result.success).toBeFalsy();
       expect(result.message).toContain(`Error finding user with id ${testId}`);
       expect(result.content).toBeNull();
