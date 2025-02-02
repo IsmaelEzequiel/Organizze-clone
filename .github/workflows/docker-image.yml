@@ -24,7 +24,7 @@ jobs:
       # Build step with dynamic tagging
       - name: Build the Docker image
         run: |
-          docker build . --file Dockerfile --tag ghcr.io/${{ github.repository }}:${{ github.sha }}
+          docker build . --file Dockerfile --tag ghcr.io/${{ toLower(github.repository) }}:${{ github.sha }}
           if [ "${{ github.ref }}" == "refs/heads/main" ]; then
             docker tag ghcr.io/${{ github.repository }}:${{ github.sha }} ghcr.io/${{ github.repository }}:latest
           fi
