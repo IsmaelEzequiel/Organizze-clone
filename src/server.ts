@@ -13,8 +13,9 @@ import { env } from '@/common/utils/envConfig';
 
 import { accountRouter } from './api/v1/accounts/accountsRouter';
 import { authRouter } from './api/v1/auth/authRouter';
-import { cardsRouter } from './api/v1/Cards/cardsRouter';
+import { cardsRouter } from './api/v1/cards/cardsRouter';
 import { verifyJWT } from './common/middleware/verifyJWT';
+import { transactionsRouter } from './api/v1/transactions/transactionsRouter';
 
 const logger = pino({ name: 'server start' });
 const app: Express = express();
@@ -38,6 +39,7 @@ app.use('/v1/auth', authRouter);
 app.use('/v1/users', verifyJWT, userRouter);
 app.use('/v1/accounts', verifyJWT, accountRouter);
 app.use('/v1/cards', verifyJWT, cardsRouter);
+app.use('/v1/transactions', verifyJWT, transactionsRouter);
 
 // Swagger UI
 app.use(openAPIRouter);

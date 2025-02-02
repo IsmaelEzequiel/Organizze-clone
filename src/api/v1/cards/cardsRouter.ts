@@ -4,25 +4,27 @@ import express, { Request, Response, Router } from 'express';
 import { createApiRequest, createApiResponse } from '@/api-docs/openAPIResponseBuilders';
 import { handleServiceResponse, validateRequest } from '@/common/utils/httpHandlers';
 
-import { CardSchema, CardSchemAPI, CreateCardSchemaAPI, GetCardSchemaAPI } from './cardsModel';
+import { CardSchema, CardSchemAPI, GetCardSchemaAPI, GetInvoiceSchemaAPI, InvoiceSchema } from './cardsModel';
 import { cardsService } from './cardsServices';
+import { cardsController } from './cardsController';
 
 export const cardsRegistry = new OpenAPIRegistry();
 
 cardsRegistry.register('Cards', CardSchema);
+cardsRegistry.register('Invoices', InvoiceSchema);
 
 export const cardsRouter: Router = (() => {
   const router = express.Router();
 
   cardsRegistry.registerPath({
     method: 'get',
-    path: '/v1/cards',
+    path: '/v1/cards/user/{userId}',
     tags: ['Cards'],
     responses: createApiResponse(CardSchema, 'Success'),
   });
 
-  router.get('/', async (_: Request, res: Response) => {
-    const authResponse = await cardsService.findAll();
+  router.get('/user/:id', async (req: Request, res: Response) => {
+    const authResponse = await cardsService.findAllByUserId(req.params.id);
     handleServiceResponse(authResponse, res);
   });
 
@@ -46,7 +48,7 @@ export const cardsRouter: Router = (() => {
     responses: createApiResponse(CardSchema, 'Success'),
   });
 
-  router.post('/', validateRequest(CreateCardSchemaAPI), async (req: Request, res: Response) => {
+  router.post('/', validateRequest(CardSchemAPI), async (req: Request, res: Response) => {
     const authResponse = await cardsService.create(req.body);
     handleServiceResponse(authResponse, res);
   });
@@ -88,6 +90,17 @@ export const cardsRouter: Router = (() => {
     const authResponse = await cardsService.delete(req.params.id);
     handleServiceResponse(authResponse, res);
   });
+
+  // Invoices
+  cardsRegistry.registerPath({
+    method: 'get',
+    path: '/v1/cards/{cardId}/invoices',
+    tags: ['Invoice'],
+    request: { query: GetInvoiceSchemaAPI.shape.query, params: GetCardSchemaAPI.shape.params },
+    responses: createApiResponse(InvoiceSchema, 'Success'),
+  });
+
+  router.get('/:id/invoices', validateRequest(GetInvoiceSchemaAPI), cardsController.getInvoice);
 
   return router;
 })();

@@ -1,32 +1,31 @@
 import prisma from '@/config/prisma';
 
-import { Cards, CreateCards } from './cardsModel';
+import { Cards, CreateCardsDto } from './cardsModel';
 
-export const cardsRepository = {
-  findAllAsync: async () => {
+export class CardsRepository {
+  async findAllByUserId(id: string) {
     const acc = await prisma.cards.findMany({
       where: {
+        userId: id,
         deletedAt: null,
       },
     });
     return acc;
-  },
+  }
 
-  findAsync: async (id: string) => {
+  async findById(id: string) {
     const acc = await prisma.cards.findUnique({
-      where: {
-        id: id,
-      },
+      where: { id },
     });
     return acc;
-  },
+  }
 
-  createAsync: async (params: CreateCards) => {
+  async create(params: CreateCardsDto) {
     const acc = await prisma.cards.create({ data: params });
     return acc;
-  },
+  }
 
-  archiveAsync: async (id: string) => {
+  async softDelete(id: string) {
     const acc = await prisma.cards.update({
       where: {
         id: id,
@@ -35,21 +34,19 @@ export const cardsRepository = {
         deletedAt: new Date().toISOString(),
       },
     });
-
     return acc;
-  },
+  }
 
-  deleteAsync: async (id: string) => {
+  async deleteById(id: string) {
     const acc = await prisma.cards.delete({
       where: {
         id: id,
       },
     });
-
     return acc;
-  },
+  }
 
-  updateAsync: async (id: string, params: Cards) => {
+  async updateById(id: string, params: Cards) {
     const acc = await prisma.cards.update({
       where: {
         id: id,
@@ -64,5 +61,26 @@ export const cardsRepository = {
       },
     });
     return acc;
-  },
-};
+  }
+
+  async getInvoices(params: InvoicesParams) {
+    const data = await prisma.invoice.findFirst({
+      where: { cardId: params.cardId, month: params.month, year: params.year },
+      include: { transactions: true },
+    });
+
+    return data;
+  }
+
+  async getTransactions(cardId: string, startDate: Date, endDate: Date) {
+    const data = await prisma.transactions.findMany({
+      where: {
+        invoiceId: null,
+        cardId,
+        date: { gte: startDate, lte: endDate },
+      },
+    });
+
+    return data;
+  }
+}

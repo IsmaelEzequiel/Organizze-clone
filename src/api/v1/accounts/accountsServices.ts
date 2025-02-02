@@ -11,71 +11,71 @@ export const accountsService = {
     try {
       const accounts = await accountsRepository.findAllAsync(userId);
       if (!accounts) {
-        return new ServiceResponse<Account[]>(ResponseStatus.Success, 'Account not found', accounts, StatusCodes.OK);
+        return ServiceResponse.success<Account[]>('Account not found', accounts);
       }
       if (typeof accounts === 'string') {
-        return new ServiceResponse<Account[] | string>(ResponseStatus.Success, 'User not found', [], StatusCodes.OK);
+        return ServiceResponse.success<Account[] | string>('User not found', []);
       }
-      return new ServiceResponse<Account[]>(ResponseStatus.Success, 'Success', accounts, StatusCodes.OK);
+      return ServiceResponse.success<Account[]>('Success', accounts);
     } catch (error) {
       const errorMessage = `Error creating account: $${(error as Error).message}`;
       logger.error(errorMessage);
-      return new ServiceResponse(ResponseStatus.Failed, errorMessage, null, StatusCodes.INTERNAL_SERVER_ERROR);
+      return ServiceResponse.failure(errorMessage, null);
     }
   },
 
   findUniqueAll: async (id: string): Promise<ServiceResponse<Account | null>> => {
     try {
       const accounts = await accountsRepository.findUniqueAsync(id);
-      return new ServiceResponse<Account | null>(ResponseStatus.Success, 'Success', accounts, StatusCodes.OK);
+      return ServiceResponse.success<Account | null>('Success', accounts);
     } catch (error) {
       const errorMessage = `Error creating account: $${(error as Error).message}`;
       logger.error(errorMessage);
-      return new ServiceResponse(ResponseStatus.Failed, errorMessage, null, StatusCodes.INTERNAL_SERVER_ERROR);
+      return ServiceResponse.failure(errorMessage, null);
     }
   },
 
   create: async (params: CreateAccount): Promise<ServiceResponse<Account | null>> => {
     try {
       const accounts = await accountsRepository.createAsync(params);
-      return new ServiceResponse<Account>(ResponseStatus.Success, 'Success', accounts, StatusCodes.OK);
+      return ServiceResponse.success<Account>('Success', accounts);
     } catch (error) {
       const errorMessage = `Error creating account: $${(error as Error).message}`;
       logger.error(errorMessage);
-      return new ServiceResponse(ResponseStatus.Failed, errorMessage, null, StatusCodes.INTERNAL_SERVER_ERROR);
+      return ServiceResponse.failure(errorMessage, null);
     }
   },
 
   archive: async (params: string): Promise<ServiceResponse<Account | null>> => {
     try {
       const info = await accountsRepository.archiveAsync(params);
-      return new ServiceResponse<Account>(ResponseStatus.Success, 'Success', info, StatusCodes.OK);
+      return ServiceResponse.success<Account>('Success', info);
     } catch (error) {
       const errorMessage = `Error while archive: $${(error as Error).message}`;
       logger.error(errorMessage);
-      return new ServiceResponse(ResponseStatus.Failed, errorMessage, null, StatusCodes.INTERNAL_SERVER_ERROR);
+      return ServiceResponse.failure(errorMessage, null);
     }
   },
 
   delete: async (params: string): Promise<ServiceResponse<Account | null>> => {
     try {
       const info = await accountsRepository.deleteAsync(params);
-      return new ServiceResponse<Account>(ResponseStatus.Success, 'Success', info, StatusCodes.OK);
+      return ServiceResponse.success<Account>('Success', info);
     } catch (error) {
       const errorMessage = `Error while deleting: $${(error as Error).message}`;
       logger.error(errorMessage);
-      return new ServiceResponse(ResponseStatus.Failed, errorMessage, null, StatusCodes.INTERNAL_SERVER_ERROR);
+      return ServiceResponse.failure(errorMessage, null);
     }
   },
 
   update: async (accountId: string, params: Account): Promise<ServiceResponse<Account | null>> => {
     try {
       const info = await accountsRepository.updateAsync(accountId, params);
-      return new ServiceResponse<Account>(ResponseStatus.Success, 'Success', info, StatusCodes.OK);
+      return ServiceResponse.success<Account>('Success', info);
     } catch (error) {
       const errorMessage = `Error while editing: $${(error as Error).message}`;
       logger.error(errorMessage);
-      return new ServiceResponse(ResponseStatus.Failed, errorMessage, null, StatusCodes.INTERNAL_SERVER_ERROR);
+      return ServiceResponse.failure(errorMessage, null);
     }
   },
 };

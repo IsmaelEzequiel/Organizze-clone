@@ -2,9 +2,10 @@ import { OpenApiGeneratorV3, OpenAPIRegistry } from '@asteasolutions/zod-to-open
 
 import { accountRegistry } from '@/api/v1/accounts/accountsRouter';
 import { authRegistry } from '@/api/v1/auth/authRouter';
-import { cardsRegistry } from '@/api/v1/Cards/cardsRouter';
+import { cardsRegistry } from '@/api/v1/cards/cardsRouter';
 import { healthCheckRegistry } from '@/api/v1/healthCheck/healthCheckRouter';
 import { userRegistry } from '@/api/v1/user/userRouter';
+import { transactionsRegistry } from '@/api/v1/transactions/transactionsRouter';
 
 export function generateOpenAPIDocument() {
   const registry = new OpenAPIRegistry([
@@ -13,6 +14,7 @@ export function generateOpenAPIDocument() {
     authRegistry,
     accountRegistry,
     cardsRegistry,
+    transactionsRegistry,
   ]);
 
   const bearerAuth = registry.registerComponent('securitySchemes', 'Authorization', {

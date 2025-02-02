@@ -11,18 +11,13 @@ export const userService = {
     try {
       const users = await userRepository.findAllAsync();
       if (!users.length) {
-        return new ServiceResponse(ResponseStatus.Failed, 'No Users found', null, StatusCodes.NOT_FOUND);
+        return ServiceResponse.failure('No Users found', null, StatusCodes.NOT_FOUND);
       }
-      return new ServiceResponse<UserWithoutPasswordType[]>(
-        ResponseStatus.Success,
-        'Users found',
-        users,
-        StatusCodes.OK
-      );
+      return ServiceResponse.success<UserWithoutPasswordType[]>('Users found', users);
     } catch (error) {
       const errorMessage = `Error finding all users: $${(error as Error).message}`;
       logger.error(errorMessage);
-      return new ServiceResponse(ResponseStatus.Failed, errorMessage, null, StatusCodes.INTERNAL_SERVER_ERROR);
+      return ServiceResponse.failure(errorMessage, null);
     }
   },
 
@@ -31,13 +26,13 @@ export const userService = {
     try {
       const user = await userRepository.findByIdAsync(id);
       if (!user) {
-        return new ServiceResponse(ResponseStatus.Failed, 'User not found', null, StatusCodes.NOT_FOUND);
+        return ServiceResponse.failure('User not found', null, StatusCodes.NOT_FOUND);
       }
-      return new ServiceResponse<UserWithoutPasswordType>(ResponseStatus.Success, 'User found', user, StatusCodes.OK);
+      return ServiceResponse.success<UserWithoutPasswordType>('User found', user);
     } catch (error) {
       const errorMessage = `Error finding user with id ${id}:, ${(error as Error).message}`;
       logger.error(errorMessage);
-      return new ServiceResponse(ResponseStatus.Failed, errorMessage, null, StatusCodes.INTERNAL_SERVER_ERROR);
+      return ServiceResponse.failure(errorMessage, null);
     }
   },
 
@@ -45,18 +40,13 @@ export const userService = {
     try {
       const user = await userRepository.createUserAsync(params);
       if (!user) {
-        return new ServiceResponse(ResponseStatus.Failed, 'Failed to create user', null, StatusCodes.BAD_REQUEST);
+        return ServiceResponse.failure('Failed to create user', null, StatusCodes.BAD_REQUEST);
       }
-      return new ServiceResponse<UserWithoutPasswordType>(
-        ResponseStatus.Success,
-        'User created',
-        user,
-        StatusCodes.CREATED
-      );
+      return ServiceResponse.success<UserWithoutPasswordType>('User created', user);
     } catch (error) {
       const errorMessage = `Error creating a user, ${(error as Error).message}`;
       logger.error(errorMessage);
-      return new ServiceResponse(ResponseStatus.Failed, errorMessage, null, StatusCodes.INTERNAL_SERVER_ERROR);
+      return ServiceResponse.failure(errorMessage, null);
     }
   },
 };

@@ -12,13 +12,13 @@ export const authService = {
     try {
       const info = await authRepository.signInAsync(params);
       if (!info) {
-        return new ServiceResponse(ResponseStatus.Failed, 'Email or password incorrect', null, StatusCodes.BAD_REQUEST);
+        return ServiceResponse.failure('Email or password incorrect', null, StatusCodes.BAD_REQUEST);
       }
-      return new ServiceResponse<AuthLogin>(ResponseStatus.Success, 'Success', info, StatusCodes.OK);
+      return ServiceResponse.success<AuthLogin>('Success', info);
     } catch (error) {
       const errorMessage = `Error while signIn: $${(error as Error).message}`;
       logger.error(errorMessage);
-      return new ServiceResponse(ResponseStatus.Failed, errorMessage, null, StatusCodes.INTERNAL_SERVER_ERROR);
+      return ServiceResponse.failure(errorMessage, null);
     }
   },
 
@@ -26,18 +26,18 @@ export const authService = {
     try {
       const info = await authRepository.signUpAsync(params);
       if (!info) {
-        return new ServiceResponse(
+        return ServiceResponse.failure(
           ResponseStatus.Failed,
           'Something went wrong, please try again later',
           null,
           StatusCodes.BAD_REQUEST
         );
       }
-      return new ServiceResponse<string | null>(ResponseStatus.Success, 'Success', info, StatusCodes.OK);
+      return ServiceResponse.success<string | null>('Success', info);
     } catch (error) {
       const errorMessage = `Error while sign up: $${(error as Error).message}`;
       logger.error(errorMessage);
-      return new ServiceResponse(ResponseStatus.Failed, errorMessage, null, StatusCodes.INTERNAL_SERVER_ERROR);
+      return ServiceResponse.failure(errorMessage, null);
     }
   },
 };

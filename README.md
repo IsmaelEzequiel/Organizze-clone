@@ -2,13 +2,13 @@
 
 ## 🚀 Features
 
-- [ ] Signup;
+- [x] Signup;
 - [ ] Reset password;
 - [ ] Activate account;
 - [ ] Auth0 signup (social login);
-- [ ] Add credit cards;
+- [x] Add credit cards;
 - [ ] Create invoices for my credit cards;
-- [ ] Add bank accounts;
+- [x] Add bank accounts;
 - [ ] Create transactions - Expense and income;
 - [ ] Pay for purchases in installments;
 - [ ] Add a fixed recurring income;
