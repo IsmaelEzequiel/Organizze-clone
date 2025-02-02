@@ -2,13 +2,13 @@ import { z } from 'zod';
 
 export const CardSchema = z.object({
   id: z.string(),
-  is_deleted: z.date().nullish(),
+  deletedAt: z.date().nullish(),
   userId: z.string(),
   title: z.string(),
   limit: z.number(),
   currency_code: z.string(),
   buy_limit: z.number(),
-  exp_day: z.number(),
+  exp_day: z.date(),
   icon: z.string().nullable(),
 });
 
@@ -25,7 +25,7 @@ export const CreateCardSchema = CardSchema.pick({
 export const CardSchemAPI = z.object({
   body: z.object({
     id: z.string(),
-    is_deleted: z.date().nullish(),
+    deletedAt: z.date().nullish(),
     userId: z.string(),
     title: z.string(),
     limit: z.number(),

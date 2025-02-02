@@ -6,7 +6,7 @@ export const cardsRepository = {
   findAllAsync: async () => {
     const acc = await prisma.cards.findMany({
       where: {
-        is_deleted: null,
+        deletedAt: null,
       },
     });
     return acc;
@@ -32,7 +32,7 @@ export const cardsRepository = {
         id: id,
       },
       data: {
-        is_deleted: new Date().toISOString(),
+        deletedAt: new Date().toISOString(),
       },
     });
 

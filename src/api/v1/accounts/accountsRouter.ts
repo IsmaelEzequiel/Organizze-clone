@@ -24,7 +24,7 @@ export const accountRouter: Router = (() => {
 
   accountRegistry.registerPath({
     method: 'get',
-    path: '/v1/accounts/{userId}',
+    path: '/v1/accounts/user/{userId}',
     tags: ['Accounts'],
     request: { params: GetAccountSchemaAPI.shape.params },
     responses: createApiResponses([
@@ -33,8 +33,20 @@ export const accountRouter: Router = (() => {
     ]),
   });
 
-  router.get('/:userId', async (req: Request, res: Response) => {
+  router.get('/user/:userId', async (req: Request, res: Response) => {
     const authResponse = await accountsService.findAll(req.params.userId);
+    handleServiceResponse(authResponse, res);
+  });
+
+  accountRegistry.registerPath({
+    method: 'get',
+    path: '/v1/accounts/{id}',
+    tags: ['Accounts'],
+    responses: createApiRequest(AccountSchema, 'Success'),
+  });
+
+  router.get('/:id', async (req: Request, res: Response) => {
+    const authResponse = await accountsService.findUniqueAll(req.params.id);
     handleServiceResponse(authResponse, res);
   });
 
@@ -53,13 +65,13 @@ export const accountRouter: Router = (() => {
 
   accountRegistry.registerPath({
     method: 'post',
-    path: '/v1/accounts/archive',
+    path: '/v1/accounts/archive/{id}',
     tags: ['Accounts'],
     responses: createApiRequest(AccountSchema, 'Success'),
   });
 
-  router.post('/archive', async (req: Request, res: Response) => {
-    const authResponse = await accountsService.archive(req.body);
+  router.post('/archive/:id', async (req: Request, res: Response) => {
+    const authResponse = await accountsService.archive(req.params.id);
     handleServiceResponse(authResponse, res);
   });
 

@@ -6,7 +6,7 @@ export const AccountSchema = z.object({
   title: z.string(),
   balance: z.number(),
   icon: z.string(),
-  is_deleted: z.date().nullish(),
+  deletedAt: z.date().nullish(),
   sum_balance: z.boolean().default(false),
   currency_code: z.string(),
 });
@@ -26,7 +26,7 @@ export const AccountSchemaAPI = z.object({
     title: z.string(),
     balance: z.number(),
     icon: z.string(),
-    is_deleted: z.date().nullish(),
+    deletedAt: z.date().nullish(),
     sum_balance: z.boolean().default(false),
     currency_code: z.string(),
   }),
@@ -38,6 +38,10 @@ export const CreateAccountSchemaAPI = z.object({
 
 export const GetAccountSchemaAPI = z.object({
   params: z.object({ userId: z.string() }),
+});
+
+export const ArchiveSchemaAPI = z.object({
+  params: z.object({ id: z.string() }),
 });
 
 export type Account = z.infer<typeof AccountSchema>;

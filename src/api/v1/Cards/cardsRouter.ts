@@ -4,7 +4,7 @@ import express, { Request, Response, Router } from 'express';
 import { createApiRequest, createApiResponse } from '@/api-docs/openAPIResponseBuilders';
 import { handleServiceResponse, validateRequest } from '@/common/utils/httpHandlers';
 
-import { CardSchema, CardSchemAPI, CreateCardSchema, CreateCardSchemaAPI, GetCardSchemaAPI } from './cardsModel';
+import { CardSchema, CardSchemAPI, CreateCardSchemaAPI, GetCardSchemaAPI } from './cardsModel';
 import { cardsService } from './cardsServices';
 
 export const cardsRegistry = new OpenAPIRegistry();
@@ -43,7 +43,6 @@ export const cardsRouter: Router = (() => {
     method: 'post',
     path: '/v1/cards',
     tags: ['Cards'],
-    request: createApiRequest(CreateCardSchema, 'Success'),
     responses: createApiResponse(CardSchema, 'Success'),
   });
 
@@ -54,8 +53,9 @@ export const cardsRouter: Router = (() => {
 
   cardsRegistry.registerPath({
     method: 'post',
-    path: '/v1/cards/archive',
+    path: '/v1/cards/archive/{id}',
     tags: ['Cards'],
+    request: { params: GetCardSchemaAPI.shape.params },
     responses: createApiRequest(CardSchema, 'Success'),
   });
 

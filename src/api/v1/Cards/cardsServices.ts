@@ -43,9 +43,9 @@ export const cardsService = {
     }
   },
 
-  archive: async (params: string): Promise<ServiceResponse<Cards | null>> => {
+  archive: async (id: string): Promise<ServiceResponse<Cards | null>> => {
     try {
-      const info = await cardsRepository.archiveAsync(params);
+      const info = await cardsRepository.archiveAsync(id);
       return new ServiceResponse<Cards>(ResponseStatus.Success, 'Success', info, StatusCodes.OK);
     } catch (error) {
       const errorMessage = `Error while archive: $${(error as Error).message}`;

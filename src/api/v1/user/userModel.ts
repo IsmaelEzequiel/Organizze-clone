@@ -32,7 +32,7 @@ export type SignUp = z.infer<typeof SignUpSchema>;
 
 // Input Validation for 'GET users/:id' endpoint
 export const GetUserSchemaAPI = z.object({
-  params: z.object({ id: commonValidations.id }),
+  params: z.object({ id: commonValidations.userId }),
 });
 
 // Input Validation for 'POST users/new' endpoint

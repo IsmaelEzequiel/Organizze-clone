@@ -17,7 +17,17 @@ export const accountsRepository = {
     const acc = await prisma.accounts.findMany({
       where: {
         userId: userId,
-        is_deleted: null,
+        deletedAt: null,
+      },
+    });
+
+    return acc;
+  },
+
+  findUniqueAsync: async (id: string) => {
+    const acc = await prisma.accounts.findUnique({
+      where: {
+        id: id,
       },
     });
 
@@ -35,7 +45,7 @@ export const accountsRepository = {
         id: id,
       },
       data: {
-        is_deleted: new Date().toISOString(),
+        deletedAt: new Date().toISOString(),
       },
     });
 

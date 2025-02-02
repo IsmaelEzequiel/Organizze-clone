@@ -14,9 +14,20 @@ export const accountsService = {
         return new ServiceResponse<Account[]>(ResponseStatus.Success, 'Account not found', accounts, StatusCodes.OK);
       }
       if (typeof accounts === 'string') {
-        return new ServiceResponse<Account[] | string>(ResponseStatus.Success, 'User not found', null, StatusCodes.OK);
+        return new ServiceResponse<Account[] | string>(ResponseStatus.Success, 'User not found', [], StatusCodes.OK);
       }
       return new ServiceResponse<Account[]>(ResponseStatus.Success, 'Success', accounts, StatusCodes.OK);
+    } catch (error) {
+      const errorMessage = `Error creating account: $${(error as Error).message}`;
+      logger.error(errorMessage);
+      return new ServiceResponse(ResponseStatus.Failed, errorMessage, null, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+  },
+
+  findUniqueAll: async (id: string): Promise<ServiceResponse<Account | null>> => {
+    try {
+      const accounts = await accountsRepository.findUniqueAsync(id);
+      return new ServiceResponse<Account | null>(ResponseStatus.Success, 'Success', accounts, StatusCodes.OK);
     } catch (error) {
       const errorMessage = `Error creating account: $${(error as Error).message}`;
       logger.error(errorMessage);

@@ -1,22 +1,19 @@
-# 🚀 Express TypeScript Boilerplate 2024
+## 🚀 Features
 
-[![Build Express Application](https://github.com/edwinhern/express-typescript-2024/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/edwinhern/express-typescript-2024/actions/workflows/build.yml)
-[![CodeQL](https://github.com/edwinhern/express-typescript-2024/actions/workflows/codeql.yml/badge.svg?branch=master)](https://github.com/edwinhern/express-typescript-2024/actions/workflows/codeql.yml)
-[![Docker Image CI](https://github.com/edwinhern/express-typescript-2024/actions/workflows/docker-image.yml/badge.svg?branch=master)](https://github.com/edwinhern/express-typescript-2024/actions/workflows/docker-image.yml)
-[![Release](https://github.com/edwinhern/express-typescript-2024/actions/workflows/release.yml/badge.svg?branch=master)](https://github.com/edwinhern/express-typescript-2024/actions/workflows/release.yml)
-
-## 🌟 Introduction
-
-Welcome to the Express TypeScript Boilerplate 2024 – a streamlined, efficient, and scalable foundation for building powerful backend services. This boilerplate merges modern tools and practices in Express.js and TypeScript, enhancing productivity, code quality, and performance.
-
-## 💡 Motivation and Intentions
-
-Developed to streamline backend development, this boilerplate is your solution for:
-
-- ✨ Reducing setup time for new projects.
-- 📊 Ensuring code consistency and quality.
-- ⚡ Facilitating rapid development with cutting-edge tools.
-- 🛡️ Encouraging best practices in security, testing, and performance.
+[] Signup;
+[] Reset password;
+[] Activate account;
+[] Auth0 signup (social login);
+[] Add credit cards;
+[] Create invoices for my credit cards;
+[] Add bank accounts;
+[] Create transactions - Expense and income;
+[] Pay for purchases in installments;
+[] Add a fixed recurring income;
+[] Near expense close to expire;
+[] Alert expired expenses;
+[] Manage tags tags;
+[] Create categories;
 
 ## 🚀 Features
 
@@ -40,8 +37,6 @@ Developed to streamline backend development, this boilerplate is your solution f
 
 ### Step 1: 🚀 Initial Setup
 
-- Clone the repository: `git clone https://github.com/edwinhern/express-typescript-2024.git`
-- Navigate: `cd express-typescript-2024`
 - Install dependencies: `npm ci`
 
 ### Step 2: ⚙️ Environment Configuration
@@ -54,51 +49,5 @@ Developed to streamline backend development, this boilerplate is your solution f
 - Development Mode: `npm run dev`
 - Building: `npm run build`
 - Production Mode: Set `.env` to `NODE_ENV="production"` then `npm run build && npm run start`
-
-## 📁 Project Structure
-
-```
-.
-├── api
-│   ├── healthCheck
-│   │   ├── __tests__
-│   │   │   └── healthCheckRouter.test.ts
-│   │   └── healthCheckRouter.ts
-│   └── user
-│       ├── __tests__
-│       │   ├── userRouter.test.ts
-│       │   └── userService.test.ts
-│       ├── userModel.ts
-│       ├── userRepository.ts
-│       ├── userRouter.ts
-│       └── userService.ts
-├── api-docs
-│   ├── __tests__
-│   │   └── openAPIRouter.test.ts
-│   ├── openAPIDocumentGenerator.ts
-│   ├── openAPIResponseBuilders.ts
-│   └── openAPIRouter.ts
-├── common
-│   ├── __tests__
-│   │   ├── errorHandler.test.ts
-│   │   └── requestLogger.test.ts
-│   ├── middleware
-│   │   ├── errorHandler.ts
-│   │   ├── rateLimiter.ts
-│   │   └── requestLogger.ts
-│   ├── models
-│   │   └── serviceResponse.ts
-│   └── utils
-│       ├── commonValidation.ts
-│       ├── envConfig.ts
-│       └── httpHandlers.ts
-├── index.ts
-└── server.ts
-
-```
-
-## 🤝 Feedback and Contributions
-
-We'd love to hear your feedback and suggestions for further improvements. Feel free to contribute and join us in making backend development cleaner and faster!
 
 🎉 Happy coding!

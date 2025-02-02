@@ -19,6 +19,8 @@ model User {
   updatedAt   DateTime      @updatedAt
   accounts    Accounts[]
   cards       Cards[]
+  transactions  Transactions[]
+  tags          Tags[]
 }
 
 enum Role {
@@ -34,8 +36,9 @@ model Accounts {
   title         String
   balance       Float           @default(0)
   icon          String
-  is_deleted    DateTime?
+  deletedAt     DateTime?
   sum_balance   Boolean       @default(false) // Sum balance on initial page with others balance
+  transactions  Transactions[]
   currency_code String
 }
 
@@ -44,10 +47,68 @@ model Cards {
   user          User      @relation(fields: [userId], references: [id])
   userId        String
   title         String
-  limit         Int       @default(0)
-  is_deleted    DateTime?
+  limit         Float     @default(0)
+  deletedAt     DateTime?
   currency_code String
-  buy_limit     Int
-  exp_day       Int
+  buy_limit     Float
+  exp_day       DateTime
   icon          String?
+  invoices      Invoice[]
+}
+
+enum Interval {
+  WEEKLY
+  MONTHLY
+  YEARLY
+}
+
+model Invoice {
+  id               String        @id @default(uuid())
+  card             Cards         @relation(fields: [cardId], references: [id])
+  cardId           String
+  due_date         DateTime      // Data de vencimento da fatura
+  close_date       DateTime      // Data de fechamento da fatura
+  paid             Boolean       @default(false) // Indica se a fatura foi paga
+  amount_due       Float         // Total devido na fatura (pode incluir compras ou parcelamentos)
+  amount_paid      Float         @default(0)    // Total já pago da fatura
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  // Relacionamento com transações (compras feitas no cartão)
+  transactions     Transactions[]
+}
+
+model Transactions {
+  id            String     @id @default(uuid())
+  user          User       @relation(fields: [userId], references: [id])
+  userId        String
+  account       Accounts?   @relation(fields: [accountId], references: [id])
+  accountId     String?
+  invoice       Invoice?    @relation(fields: [invoiceId], references: [id])
+  invoiceId     String?
+  amount        Float
+  description   String
+  category      String
+  date          DateTime    @default(now())
+  tags          String[]
+  isExpense     Boolean     @default(true)
+
+  // Parcelamento
+  installments      Int?          // Número de parcelas, se aplicável
+  installmentIndex  Int?          // Para saber em qual parcela estamos
+  paid              Boolean       @default(false) // Marca se a parcela foi paga
+  
+  // Transações recorrentes
+  recurring           Boolean     @default(false) // Se a transação for fixa
+  recurringInterval   Interval?   @default(MONTHLY)
+  nextPaymentDate     DateTime?   // Próxima data de pagamento da transação recorrente
+}
+
+model Tags {
+  id        String  @id @default(uuid())
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String
+  name      String  @unique
+  color     String? // Opcional, para definir uma cor associada à tag
+  createdAt DateTime @default(now())
 }
